@@ -67,6 +67,12 @@ body {
 	flex-direction: column;
 }
 
+#canvas {
+	background-color: white;
+	flex-basis: 70%;
+	padding: 2px;
+}
+
 .header_div {
 	padding: 2%;
 	flex-grow: 1;
