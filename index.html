@@ -4,6 +4,14 @@
 	<link rel="stylesheet" type="text/css" href="./style.css">
 	<script type="text/javascript" src="logic.js"></script>
 	<script type="text/javascript" src="canvas.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		jQuery(function($){
+		    $('.dropUpMenu').on('click', function(){
+		        $(this).toggleClass('active');
+		    });
+		})
+	</script>
 </head>
 
 <html>
@@ -24,18 +32,9 @@
 		</div>
 
 		<div class="footer_div">
-			<div class="footer_item">
-				<p>dasdasdasdasdasd<p/>
-			</div>
-
-			<div class="footer_item">
-				<p>dasdasdasdasdasd<p/>
-			</div>
-
-			<div class="footer_item">
-				<p>dasdasdasdasdasd<p/>
-			</div>
-			
+			<span class="dropUpMenu">^</span>
+				<footer>
+				</footer>
 		</div>	
 	</body>
 </html>
