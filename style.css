@@ -23,6 +23,8 @@ h1 {
 	font-variant: normal;
 	font-weight: 500;
 	line-height: 26.4px;
+	margin: 0px;
+	padding: 3%;
 }
 h3 {
 	font-family: Raleway;
@@ -63,55 +65,25 @@ html {
 
 body {
 	height: 100%;
-	display: flex;
-	flex-direction: column;
+	overflow: hidden;
+	margin: 0px;
 }
 
-#canvas {
+/*#canvas {
 	background-color: white;
 	flex-basis: 70%;
 	padding: 2px;
-}
+}*/
 
 .header_div {
-	padding: 2%;
-	flex-grow: 1;
+	height: 10%;
+	margin: 0px;
 }
 
 .content_div {
-	padding: 2%;
-	padding-bottom: 0%;
-	flex-grow: 100;
-	display: flex;
+	height: 90%;
 }
 
-.content_left {
-	flex-basis: 10%;
-	background: blue;
-}
-
-.content_center {
-	flex-basis: 70%;
-	background: red;
-	padding: 2px;
-}
-
-.content_right {
-	flex-basis: 20%;
-	background: green;
-}
-
-.footer_div {
-	padding-right: 2%;
-	padding-left: 2%;
-	flex-grow: 1;
-	display: flex;
-}
-
-.footer_item {
-	flex-grow: 1;
-	background: yellow;
-}
 	
 footer {
     position: absolute;
