@@ -113,4 +113,30 @@ body {
 	background: yellow;
 }
 	
+footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 0px;
+    height: 40px;
+    background-color: gray;
+    transition: max-height 0.3s;
+}
 
+.dropUpMenu {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 1em;
+    background-color: gray;
+    transition: bottom 0.3s;
+}
+
+.dropUpMenu.active {
+    bottom: 40px;
+}
+
+.dropUpMenu.active + footer {
+    max-height: 40px;
+}
