@@ -1,7 +1,12 @@
+var objects = [];
+objects.push(new Image, new Image);
+
+objects[0].src = 'https://sc.mogicons.com/share/dreamy-emoticon-378.jpg';
+objects[1].src = 'https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg';
+
 function renderCanvas()
 {	
 	var canvas = document.getElementById('canvas');
-	var exampleImg = new Image;
 
 	window.onload = function() 
 	{
@@ -21,7 +26,9 @@ function renderCanvas()
 			ctx.clearRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
 
 			// Draw an example image
-			ctx.drawImage(exampleImg, 100, 100);
+			for (var i = 0; i < objects.length; i++) {
+				ctx.drawImage(objects[i], 10 * (i+100), 10 * (i+100));
+			}
 
 			ctx.save();
 		}
@@ -51,7 +58,14 @@ function renderCanvas()
 
 		canvas.addEventListener('mouseup', function(evt) {
 			dragStart = null;
-			if (!dragged) zoom(evt.shiftKey ? -1 : 1 );
+			if (!dragged) {
+				var x = evt.pageX - canvas.offsetLeft;
+        		var y = evt.pageY - canvas.offsetTop;
+        		ctx.beginPath();
+				ctx.ellipse(x, y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
+				ctx.stroke();
+        		console.log('click');
+			}
 		}, false);
 
 		canvas.addEventListener('mouseout', function(evt) {
@@ -79,8 +93,6 @@ function renderCanvas()
 		canvas.addEventListener('DOMMouseScroll', handleScrolling, false);
 		canvas.addEventListener('mousewheel', handleScrolling, false);
 	};
-
-	exampleImg.src = 'https://sc.mogicons.com/share/dreamy-emoticon-378.jpg';
 
 	function trackTransforms(ctx) {
 		var svg = document.createElementNS("http://www.w3.org/2000/svg",'svg');
