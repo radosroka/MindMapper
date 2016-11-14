@@ -1,8 +1,9 @@
 var objects = [];
-objects.push(new Image, new Image);
 
-objects[0].src = 'https://sc.mogicons.com/share/dreamy-emoticon-378.jpg';
-objects[1].src = 'https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg';
+//objects.push(new Image, new Image);
+
+//objects[0].src = 'https://sc.mogicons.com/share/dreamy-emoticon-378.jpg';
+//objects[1].src = 'https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg';
 
 function renderCanvas()
 {	
@@ -15,6 +16,8 @@ function renderCanvas()
 	    canvas.height = window.innerHeight;
 
 		var ctx = canvas.getContext('2d');
+		var correction = { y:canvas.height/(canvas.height-canvas.offsetTop),
+						   x:canvas.width/(canvas.width-canvas.offsetLeft) }
 
 		trackTransforms(ctx);
 
@@ -27,7 +30,14 @@ function renderCanvas()
 
 			// Draw an example image
 			for (var i = 0; i < objects.length; i++) {
-				ctx.drawImage(objects[i], 10 * (i+100), 10 * (i+100));
+				if (objects[i].src) {
+				ctx.drawImage(objects[i], 10 * (i*100), 10 * (i*100));
+				} else {
+        		ctx.beginPath();
+				ctx.ellipse(objects[i].x, objects[i].y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
+				ctx.stroke();
+				}
+				
 			}
 
 			ctx.save();
@@ -59,10 +69,14 @@ function renderCanvas()
 		canvas.addEventListener('mouseup', function(evt) {
 			dragStart = null;
 			if (!dragged) {
-				var x = evt.pageX - canvas.offsetLeft;
-        		var y = evt.pageY - canvas.offsetTop;
+				var x = (evt.pageX - canvas.offsetLeft) * correction.x
+        		var y = (evt.pageY - canvas.offsetTop) * correction.y;
+        		//some magic is necessary to put put the circles to correct place 
+				var pt = ctx.transformedPoint(x ,y)
+        		var obj={x:pt.x, y:pt.y, name:"Hello"}
+        		objects.push(obj);
         		ctx.beginPath();
-				ctx.ellipse(x, y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
+				ctx.ellipse(pt.x, pt.y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
 				ctx.stroke();
         		console.log('click');
 			}
