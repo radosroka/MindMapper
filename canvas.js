@@ -92,6 +92,10 @@ function renderCanvas()
 				ctx.stroke();*/
 				ctx.strokeStyle = obj.color;
 				ctx.lineWidth = 5;
+				ctx.shadowBlur = 1;
+  				ctx.shadowOffsetX = 4;
+				ctx.shadowOffsetY = 4;
+				ctx.shadowColor = "gray";
 				ctx.strokeRect(pt.x-60, pt.y-30, 120, 60);
 
         		console.log('click');
