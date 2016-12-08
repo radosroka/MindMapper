@@ -5,6 +5,15 @@ var objects = [];
 //objects[0].src = 'https://sc.mogicons.com/share/dreamy-emoticon-378.jpg';
 //objects[1].src = 'https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg';
 
+function getRandomColor() {
+	var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 function renderCanvas()
 {	
 	var canvas = document.getElementById('canvas');
@@ -31,11 +40,14 @@ function renderCanvas()
 			// Draw an example image
 			for (var i = 0; i < objects.length; i++) {
 				if (objects[i].src) {
-				ctx.drawImage(objects[i], 10 * (i*100), 10 * (i*100));
+					ctx.drawImage(objects[i], 10 * (i*100), 10 * (i*100));
 				} else {
-        		ctx.beginPath();
-				ctx.ellipse(objects[i].x, objects[i].y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
-				ctx.stroke();
+	        		ctx.beginPath();
+					/*ctx.ellipse(objects[i].x, objects[i].y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
+					ctx.stroke();*/
+					ctx.strokeStyle = objects[i].color;
+					ctx.lineWidth = 5;
+					ctx.strokeRect(objects[i].x-60, objects[i].y-30, 120, 60);
 				}
 				
 			}
@@ -71,13 +83,17 @@ function renderCanvas()
 			if (!dragged) {
 				var x = (evt.pageX - canvas.offsetLeft) * correction.x
         		var y = (evt.pageY - canvas.offsetTop) * correction.y;
-        		//some magic is necessary to put put the circles to correct place 
+        		//some magic is necessary to put the circles to correct place 
 				var pt = ctx.transformedPoint(x ,y)
-        		var obj={x:pt.x, y:pt.y, name:"Hello"}
+        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor()}
         		objects.push(obj);
         		ctx.beginPath();
-				ctx.ellipse(pt.x, pt.y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
-				ctx.stroke();
+				/*ctx.ellipse(pt.x, pt.y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
+				ctx.stroke();*/
+				ctx.strokeStyle = obj.color;
+				ctx.lineWidth = 5;
+				ctx.strokeRect(pt.x-60, pt.y-30, 120, 60);
+
         		console.log('click');
 			}
 		}, false);
