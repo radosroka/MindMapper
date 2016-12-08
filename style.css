@@ -79,7 +79,7 @@ body {
 	height: 10%;
 	width: 70%;
 	margin: 0px;
-	background: #6681BE;
+	background: rgb(0, 132, 255);
 }
 
 .content_div {
@@ -103,6 +103,7 @@ buttons #icon:hover {
     background-size: contain;
     text-align: center;
     display:inline-block;
+    box-shadow: 7px 7px 20px #bcbcbc;
     -webkit-transition: width 0.5s ease-in-out;
     -moz-transition: width 0.5s ease-in-out;
     -ms-transition: width 0.5s ease-in-out;
