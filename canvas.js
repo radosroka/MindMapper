@@ -92,7 +92,7 @@ function renderCanvas()
 				ctx.stroke();*/
 				ctx.strokeStyle = obj.color;
 				ctx.lineWidth = 5;
-				ctx.shadowBlur = 1;
+				ctx.shadowBlur = 6;
   				ctx.shadowOffsetX = 4;
 				ctx.shadowOffsetY = 4;
 				ctx.shadowColor = "gray";
