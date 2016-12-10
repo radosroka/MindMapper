@@ -27,6 +27,9 @@ function selectNode(pt)
 			pt.y > objects[i].y-30 && pt.y < objects[i].y+30)
 		{
 			selectedNode = i;
+
+			/* Display tools menu. */
+			document.getElementById("tools-container").style.display = 'block';
 			break;
 		}
 	}

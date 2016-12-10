@@ -132,8 +132,18 @@ buttons #icon:hover {
     opacity: 1;
 }
 
-#container {
+#menu-container {
 	position: absolute;
 	top: 35%;
 	width: 100px;
 }
+
+#tools-container {
+
+	top: 60%;
+	display: none;
+	width: 200px;
+	margin: 0 auto;
+}
+
+
