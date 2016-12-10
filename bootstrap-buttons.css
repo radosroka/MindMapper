@@ -18,7 +18,7 @@
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;
-  box-shadow: 3px 3px 10px #bcbcbc;
+  box-shadow: 2px 2px 10px #bcbcbc;
 }
 .btn:focus,
 .btn:active:focus,

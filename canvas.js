@@ -19,6 +19,7 @@ function getRandomColor() {
  */
 var selectMode = false;
 var selectedNode = -1;
+var randomColor = false;
 
 function selectNode(pt)
 {
@@ -38,14 +39,23 @@ function selectNode(pt)
 /* Sets selectMode to true after user clicked on select button. */
 function setSelectMode()
 {
-	selectMode = true;
+	if (objects.length > 0)
+		selectMode = true;
 }
 
 function unsetSelectMode()
 {
 	selectMode = false;
+	randomColor = false;
 	document.getElementById("tools-container").style.display = 'none';
 }
+
+function useRandomColor()
+{
+	randomColor = true;
+}
+
+$("#colors-picker").on('change.spectrum', function(e) {randomColor = false;});
 
 function renderCanvas()
 {	
@@ -117,11 +127,15 @@ function renderCanvas()
 				var x = (evt.pageX - canvas.offsetLeft) * correction.x
         		var y = (evt.pageY - canvas.offsetTop) * correction.y;
         		//some magic is necessary to put the circles to correct place 
-				var pt = ctx.transformedPoint(x ,y)
+				var pt = ctx.transformedPoint(x, y)
 				if (selectMode) {
 					selectNode(pt);
 				} else {
 	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor()}
+	        		if (!randomColor) {
+	        			var color = $("#colors-picker").spectrum("get");
+	        			obj.color = color.toHexString();
+	        		}
 	        		objects.push(obj);
 	        		ctx.beginPath();
 					/*ctx.ellipse(pt.x, pt.y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);

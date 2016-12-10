@@ -6,10 +6,12 @@
 		<!-- <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Raleway" /> -->
 		<link rel="stylesheet" type="text/css" href="./style.css">
 		<link rel="stylesheet" type="text/css" href="./bootstrap-buttons.css">
+		<link rel="stylesheet" type="text/css" href="./spectrum.css">
 		<script type="text/javascript" src="logic.js"></script>
 		<script type="text/javascript" src="canvas.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
+		<script type="text/javascript" src="spectrum.js"></script>
+		<script type="text/javascript" src="color-picker.js"></script>
 	</head>
 
 	<body>
@@ -21,6 +23,11 @@
 				<button href="#" class="btn btn-default" title="Add new node">Add</button>
 				<button href="#" class="btn btn-default" title="Delete node">Del</button>
 				<button onclick="unsetSelectMode()" class="btn btn-default" title="Deselect node">Des</button>
+		</div>
+
+		<div id="colors-container" class="btn-group" align="center">
+			<button onclick="useRandomColor()" class="btn btn-default" title="Set color to random">Rand</button>
+			<input id="colors-picker" style=" float: left" />
 		</div>
 
 		<div id="menu-container">
