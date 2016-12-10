@@ -41,6 +41,12 @@ function setSelectMode()
 	selectMode = true;
 }
 
+function unsetSelectMode()
+{
+	selectMode = false;
+	document.getElementById("tools-container").style.display = 'none';
+}
+
 function renderCanvas()
 {	
 	var canvas = document.getElementById('canvas');
