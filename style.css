@@ -100,8 +100,7 @@ buttons #icon:hover {
 }
 
 .buttons #icon {
-    background: url(https://cdn0.iconfinder.com/data/icons/office-icon-set-2/100/Noun_Project_100Icon_10px_grid-38-128.png) no-repeat center;
-    background-size: contain;
+    
     text-align: center;
     display:inline-block;
     box-shadow: 7px 7px 20px #bcbcbc;
@@ -109,6 +108,10 @@ buttons #icon:hover {
     -moz-transition: width 0.5s ease-in-out;
     -ms-transition: width 0.5s ease-in-out;
     transition: width 0.5s ease-in-out;
+}
+
+.buttons #save-icon {
+	
 }
 
 .buttons #icon:hover {
