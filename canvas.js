@@ -14,6 +14,30 @@ function getRandomColor() {
     return color;
 }
 
+/* Select button was clicked if selectMode is true,
+ * selectNode() function finds out, on which node user clicked then.
+ */
+var selectMode = false;
+var selectedNode = -1;
+
+function selectNode(pt)
+{
+	for (var i = 0; i < i < objects.length; i++) {
+		if (pt.x > objects[i].x-60 && pt.x < objects[i].x+60 &&
+			pt.y > objects[i].y-30 && pt.y < objects[i].y+30)
+		{
+			selectedNode = i;
+			break;
+		}
+	}
+}
+
+/* Sets selectMode to true after user clicked on select button. */
+function setSelectMode()
+{
+	selectMode = true;
+}
+
 function renderCanvas()
 {	
 	var canvas = document.getElementById('canvas');
@@ -85,18 +109,22 @@ function renderCanvas()
         		var y = (evt.pageY - canvas.offsetTop) * correction.y;
         		//some magic is necessary to put the circles to correct place 
 				var pt = ctx.transformedPoint(x ,y)
-        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor()}
-        		objects.push(obj);
-        		ctx.beginPath();
-				/*ctx.ellipse(pt.x, pt.y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
-				ctx.stroke();*/
-				ctx.strokeStyle = obj.color;
-				ctx.lineWidth = 5;
-				ctx.shadowBlur = 6;
-  				ctx.shadowOffsetX = 4;
-				ctx.shadowOffsetY = 4;
-				ctx.shadowColor = "gray";
-				ctx.strokeRect(pt.x-60, pt.y-30, 120, 60);
+				if (selectMode) {
+					selectNode(pt);
+				} else {
+	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor()}
+	        		objects.push(obj);
+	        		ctx.beginPath();
+					/*ctx.ellipse(pt.x, pt.y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
+					ctx.stroke();*/
+					ctx.strokeStyle = obj.color;
+					ctx.lineWidth = 5;
+					ctx.shadowBlur = 6;
+	  				ctx.shadowOffsetX = 4;
+					ctx.shadowOffsetY = 4;
+					ctx.shadowColor = "gray";
+					ctx.strokeRect(pt.x-60, pt.y-30, 120, 60);
+				}
 
         		console.log('click');
 			}

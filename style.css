@@ -112,7 +112,7 @@ buttons #icon:hover {
 }
 
 .buttons #icon:hover {
-    width: 120px;
+    width: 100px;
 }
 
 .buttons #icon a {
@@ -135,5 +135,5 @@ buttons #icon:hover {
 #container {
 	position: absolute;
 	top: 35%;
-	width: 120px;
+	width: 100px;
 }
