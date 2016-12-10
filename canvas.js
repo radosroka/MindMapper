@@ -47,6 +47,7 @@ function unsetSelectMode()
 {
 	selectMode = false;
 	randomColor = false;
+	selectedNode = -1;
 	document.getElementById("tools-container").style.display = 'none';
 }
 
@@ -55,7 +56,10 @@ function useRandomColor()
 	randomColor = true;
 }
 
-$("#colors-picker").on('change.spectrum', function(e) {randomColor = false;});
+function usePickerColor()
+{
+	randomColor = false;
+}
 
 function renderCanvas()
 {	

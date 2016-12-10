@@ -143,9 +143,9 @@ buttons #icon:hover {
 
 #tools-container {
 
-	top: 60%;
+	top: 67%;
 	display: none;
-	width: 300px;
+	width: 200px;
 	margin: 0 auto;
 }
 
@@ -153,6 +153,6 @@ buttons #icon:hover {
 
 	top: 60%;
 	display: block;
-	width: 300px;
+	width: 200px;
 	margin: 0 auto;
 }
