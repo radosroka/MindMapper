@@ -20,11 +20,12 @@ function getRandomColor() {
 var selectMode = false;
 var selectedNode = -1;
 var randomColor = false;
+var textMode = true;
 
 function selectNode(pt)
 {
 	for (var i = 0; i < i < objects.length; i++) {
-		if (pt.x > objects[i].x-60 && pt.x < objects[i].x+60 &&
+		if (pt.x > objects[i].x-(objects[i].sizeHalfX/2) && pt.x < objects[i].x+(objects[i].sizeHalfX/2) &&
 			pt.y > objects[i].y-30 && pt.y < objects[i].y+30)
 		{
 			selectedNode = i;
@@ -61,6 +62,8 @@ function usePickerColor()
 	randomColor = false;
 }
 
+
+
 function renderCanvas()
 {	
 	var canvas = document.getElementById('canvas');
@@ -89,12 +92,23 @@ function renderCanvas()
 				if (objects[i].src) {
 					ctx.drawImage(objects[i], 10 * (i*100), 10 * (i*100));
 				} else {
-	        		ctx.beginPath();
-					/*ctx.ellipse(objects[i].x, objects[i].y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
-					ctx.stroke();*/
-					ctx.strokeStyle = objects[i].color;
-					ctx.lineWidth = 5;
-					ctx.strokeRect(objects[i].x-60, objects[i].y-30, 120, 60);
+					if (!objects[i].text) {
+		        		ctx.beginPath();
+						/*ctx.ellipse(objects[i].x, objects[i].y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
+						ctx.stroke();*/
+						ctx.strokeStyle = objects[i].color;
+						ctx.lineWidth = 5;
+						ctx.strokeRect(objects[i].x-(objects[i].sizeHalfX/2), objects[i].y-30, objects[i].sizeHalfX, 60);
+					} else {
+						ctx.font = "20px Arial";
+						var length = ctx.measureText(objects[i].text).width;
+						ctx.beginPath();
+						ctx.strokeStyle = objects[i].color;
+						ctx.lineWidth = 5;
+						objects[i].sizeHalfX = length + 20;
+						ctx.strokeRect(objects[i].x-(objects[i].sizeHalfX/2), objects[i].y-30, objects[i].sizeHalfX, 60);
+						ctx.fillText(objects[i].text, objects[i].x-(objects[i].sizeHalfX/2)+10, objects[i].y+10);
+					}
 				}
 				
 			}
@@ -135,7 +149,7 @@ function renderCanvas()
 				if (selectMode) {
 					selectNode(pt);
 				} else {
-	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor()}
+	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor(), sizeHalfX:120}
 	        		if (!randomColor) {
 	        			var color = $("#colors-picker").spectrum("get");
 	        			obj.color = color.toHexString();
@@ -150,7 +164,7 @@ function renderCanvas()
 	  				ctx.shadowOffsetX = 4;
 					ctx.shadowOffsetY = 4;
 					ctx.shadowColor = "gray";
-					ctx.strokeRect(pt.x-60, pt.y-30, 120, 60);
+					ctx.strokeRect(pt.x-(obj.sizeHalfX/2), pt.y-30, obj.sizeHalfX, 60);
 				}
 
         		console.log('click');
@@ -181,6 +195,17 @@ function renderCanvas()
 
 		canvas.addEventListener('DOMMouseScroll', handleScrolling, false);
 		canvas.addEventListener('mousewheel', handleScrolling, false);
+
+		window.onkeypress = function(event) {
+			if (textMode && selectedNode >= 0) {
+				if (event.which == null) {
+					objects[selectedNode].text += String.fromCharCode(event.keyCode); // IE
+				} else if (event.which!=0 && event.charCode!=0) {
+					objects[selectedNode].text += String.fromCharCode(event.which);   // the rest
+				}
+			}
+			redraw();
+		}
 	};
 
 	function trackTransforms(ctx) {
