@@ -50,6 +50,18 @@ function selectNodeToMove(pt)
 	}
 }
 
+function isNode(pt)
+{
+	for (var i = 0; i < objects.length; i++) {
+		if (pt.x > objects[i].x-(objects[i].sizeX/2) && pt.x < objects[i].x+(objects[i].sizeX/2) &&
+			pt.y > objects[i].y-(objects[i].sizeY/2) && pt.y < objects[i].y+(objects[i].sizeY/2))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 /* Sets selectMode to true after user clicked on select button. */
 function setSelectMode()
 {
@@ -182,7 +194,8 @@ function renderCanvas()
         		var y = (evt.pageY - canvas.offsetTop) * correction.y;
         		//some magic is necessary to put the circles to correct place 
 				var pt = ctx.transformedPoint(x, y)
-				if (selectMode) {
+				var select = isNode(pt);
+				if (select) {
 					selectNode(pt);
 					redraw();
 				} else {

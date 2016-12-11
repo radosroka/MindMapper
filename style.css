@@ -143,7 +143,7 @@ buttons #icon:hover {
 
 #tools-container {
 	position: absolute;
-	top: 64%;
+	top: 74%;
 	display: none;
 	width: 200px;
 	margin-right: auto;
@@ -154,7 +154,7 @@ buttons #icon:hover {
 
 #colors-container {
 	position: absolute;
-	top: 68%;
+	top: 78%;
 	display: block;
 	width: 200px;
 	margin-left: auto;
