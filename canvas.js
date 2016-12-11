@@ -24,6 +24,7 @@ var textMode = true;
 
 function selectNode(pt)
 {
+	selectedNode = -1;
 	for (var i = 0; i < i < objects.length; i++) {
 		if (pt.x > objects[i].x-(objects[i].sizeX/2) && pt.x < objects[i].x+(objects[i].sizeX/2) &&
 			pt.y > objects[i].y-(objects[i].sizeY/2) && pt.y < objects[i].y+(objects[i].sizeY/2))
@@ -127,6 +128,9 @@ function renderCanvas()
 			lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
 			lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
 			dragStart = ctx.transformedPoint(lastX, lastY);
+			if (selectMode) {
+				selectNode(dragStart);
+			}
 			dragged = false;
 		}, false);
 
@@ -136,7 +140,13 @@ function renderCanvas()
 			dragged = true;
 			if (dragStart) {
 				var pt = ctx.transformedPoint(lastX, lastY);
-				ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
+				if (selectedNode != -1) {
+					objects[selectedNode].x = pt.x;
+					objects[selectedNode].y = pt.y;
+				}
+				else {
+					ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
+				}
 				redraw();
 			}
 		}, false);
@@ -168,7 +178,7 @@ function renderCanvas()
 					ctx.shadowColor = "gray";
 					ctx.strokeRect(pt.x-(obj.sizeX/2), pt.y-(obj.sizeY/2), obj.sizeX, obj.sizeY);
 				}
-
+				selectedNode = -1;
         		console.log('click');
 			}
 		}, false);
