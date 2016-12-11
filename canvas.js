@@ -149,7 +149,7 @@ function renderCanvas()
 				if (selectMode) {
 					selectNode(pt);
 				} else {
-	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor(), sizeHalfX:120}
+	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor(), sizeHalfX:120, text:""}
 	        		if (!randomColor) {
 	        			var color = $("#colors-picker").spectrum("get");
 	        			obj.color = color.toHexString();
