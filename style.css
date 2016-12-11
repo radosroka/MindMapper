@@ -142,17 +142,31 @@ buttons #icon:hover {
 }
 
 #tools-container {
-
-	top: 67%;
+	position: absolute;
+	top: 64%;
 	display: none;
 	width: 200px;
-	margin: 0 auto;
+	margin-right: auto;
+	margin-left: auto;
+	left: 0;
+	right: 0;
 }
 
-#colors-container {
-
+/*#colors-container {
+	position: absolute;
 	top: 60%;
 	display: block;
 	width: 200px;
 	margin: 0 auto;
+}*/
+
+#colors-container {
+	position: absolute;
+	top: 68%;
+	display: block;
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
 }
