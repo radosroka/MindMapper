@@ -25,8 +25,8 @@ var textMode = true;
 function selectNode(pt)
 {
 	for (var i = 0; i < i < objects.length; i++) {
-		if (pt.x > objects[i].x-(objects[i].sizeHalfX/2) && pt.x < objects[i].x+(objects[i].sizeHalfX/2) &&
-			pt.y > objects[i].y-30 && pt.y < objects[i].y+30)
+		if (pt.x > objects[i].x-(objects[i].sizeX/2) && pt.x < objects[i].x+(objects[i].sizeX/2) &&
+			pt.y > objects[i].y-(objects[i].sizeY/2) && pt.y < objects[i].y+(objects[i].sizeY/2))
 		{
 			selectedNode = i;
 
@@ -98,16 +98,18 @@ function renderCanvas()
 						ctx.stroke();*/
 						ctx.strokeStyle = objects[i].color;
 						ctx.lineWidth = 5;
-						ctx.strokeRect(objects[i].x-(objects[i].sizeHalfX/2), objects[i].y-30, objects[i].sizeHalfX, 60);
+						ctx.strokeRect(objects[i].x-(objects[i].sizeX/2), objects[i].y-(objects[i].sizeY/2), objects[i].sizeX, objects[i].sizeY);
 					} else {
 						ctx.font = "20px Arial";
-						var length = ctx.measureText(objects[i].text).width;
+						var width = ctx.measureText(objects[i].text).width;
+						
 						ctx.beginPath();
 						ctx.strokeStyle = objects[i].color;
 						ctx.lineWidth = 5;
-						objects[i].sizeHalfX = length + 20;
-						ctx.strokeRect(objects[i].x-(objects[i].sizeHalfX/2), objects[i].y-30, objects[i].sizeHalfX, 60);
-						ctx.fillText(objects[i].text, objects[i].x-(objects[i].sizeHalfX/2)+10, objects[i].y+10);
+						objects[i].sizeX = width + 20;
+						
+						ctx.strokeRect(objects[i].x-(objects[i].sizeX/2), objects[i].y-(objects[i].sizeY/2), objects[i].sizeX, objects[i].sizeY);
+						ctx.fillText(objects[i].text, objects[i].x-(objects[i].sizeX/2)+10, objects[i].y+10);
 					}
 				}
 				
@@ -149,7 +151,7 @@ function renderCanvas()
 				if (selectMode) {
 					selectNode(pt);
 				} else {
-	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor(), sizeHalfX:120, text:""}
+	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor(), sizeX:120, sizeY:60, text:""}
 	        		if (!randomColor) {
 	        			var color = $("#colors-picker").spectrum("get");
 	        			obj.color = color.toHexString();
@@ -164,7 +166,7 @@ function renderCanvas()
 	  				ctx.shadowOffsetX = 4;
 					ctx.shadowOffsetY = 4;
 					ctx.shadowColor = "gray";
-					ctx.strokeRect(pt.x-(obj.sizeHalfX/2), pt.y-30, obj.sizeHalfX, 60);
+					ctx.strokeRect(pt.x-(obj.sizeX/2), pt.y-(obj.sizeY/2), obj.sizeX, obj.sizeY);
 				}
 
         		console.log('click');
