@@ -70,13 +70,20 @@ function usePickerColor()
 	randomColor = false;
 }
 
+/*function getEndPoints(i)
+{
+	var p = objects[i].parent;
+
+	var startPointX = objects[i].x
+}*/
+
 function renderCanvas()
 {	
 	var canvas = document.getElementById('canvas');
 
 	window.onload = function() 
 	{
-		var obj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:""};
+		var obj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:"Insert text", parent:-1};
 		objects.push(obj);
 
 		canvas.width = window.innerWidth;
@@ -111,6 +118,7 @@ function renderCanvas()
 						ctx.shadowOffsetY = 4;
 						ctx.shadowColor = "gray";
 					}
+
 					if (!objects[i].text) {
 		        		ctx.beginPath();
 						/*ctx.ellipse(objects[i].x, objects[i].y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
@@ -128,6 +136,12 @@ function renderCanvas()
 						objects[i].sizeX = width + 20;
 						
 						ctx.strokeRect(objects[i].x-(objects[i].sizeX/2), objects[i].y-(objects[i].sizeY/2), objects[i].sizeX, objects[i].sizeY);
+						/*if (objects[i].parent != -1) {
+							var endPoints = getEndPoints(i);
+							ctx.moveTo(endPoints.start.x, endPoints.start.y);
+							ctx.lineTo(endPoints.end.x, endPoints.end.y);
+							ctx.stroke();
+						}*/
 						ctx.fillText(objects[i].text, objects[i].x-(objects[i].sizeX/2)+10, objects[i].y+10);
 					}
 				}
@@ -173,7 +187,7 @@ function renderCanvas()
 			dragStart = null;
 			nodeToMove = -1;
 			if (!dragged) {
-				var x = (evt.pageX - canvas.offsetLeft) * correction.x
+				var x = (evt.pageX - canvas.offsetLeft) * correction.x;
         		var y = (evt.pageY - canvas.offsetTop) * correction.y;
         		//some magic is necessary to put the circles to correct place 
 				var pt = ctx.transformedPoint(x, y);
@@ -182,7 +196,7 @@ function renderCanvas()
 					selectNode(pt);
 					redraw();
 				} else {
-	        		var obj={x:pt.x, y:pt.y, color:getRandomColor(), sizeX:120, sizeY:60, text:""}
+	        		var obj={x:pt.x, y:pt.y, color:getRandomColor(), sizeX:120, sizeY:60, text:"", parent:selectedNode};
 	        		if (!randomColor) {
 	        			var color = $("#colors-picker").spectrum("get");
 	        			obj.color = color.toHexString();
