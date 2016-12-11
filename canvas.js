@@ -21,11 +21,11 @@ var selectMode = false;
 var selectedNode = -1;
 var randomColor = false;
 var textMode = true;
+var nodeToMove = -1;
 
 function selectNode(pt)
 {
-	selectedNode = -1;
-	for (var i = 0; i < i < objects.length; i++) {
+	for (var i = 0; i < objects.length; i++) {
 		if (pt.x > objects[i].x-(objects[i].sizeX/2) && pt.x < objects[i].x+(objects[i].sizeX/2) &&
 			pt.y > objects[i].y-(objects[i].sizeY/2) && pt.y < objects[i].y+(objects[i].sizeY/2))
 		{
@@ -33,6 +33,18 @@ function selectNode(pt)
 
 			/* Display tools menu. */
 			document.getElementById("tools-container").style.display = 'block';
+			break;
+		}
+	}
+}
+
+function selectNodeToMove(pt)
+{
+	for (var i = 0; i < objects.length; i++) {
+		if (pt.x > objects[i].x-(objects[i].sizeX/2) && pt.x < objects[i].x+(objects[i].sizeX/2) &&
+			pt.y > objects[i].y-(objects[i].sizeY/2) && pt.y < objects[i].y+(objects[i].sizeY/2))
+		{
+			nodeToMove = i;
 			break;
 		}
 	}
@@ -128,9 +140,9 @@ function renderCanvas()
 			lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
 			lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
 			dragStart = ctx.transformedPoint(lastX, lastY);
-			if (selectMode) {
-				selectNode(dragStart);
-			}
+			//if (selectMode) {
+			selectNodeToMove(dragStart);
+			//}
 			dragged = false;
 		}, false);
 
@@ -140,9 +152,9 @@ function renderCanvas()
 			dragged = true;
 			if (dragStart) {
 				var pt = ctx.transformedPoint(lastX, lastY);
-				if (selectedNode != -1) {
-					objects[selectedNode].x = pt.x;
-					objects[selectedNode].y = pt.y;
+				if (nodeToMove != -1) {
+					objects[nodeToMove].x = pt.x;
+					objects[nodeToMove].y = pt.y;
 				}
 				else {
 					ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
@@ -153,6 +165,7 @@ function renderCanvas()
 
 		canvas.addEventListener('mouseup', function(evt) {
 			dragStart = null;
+			nodeToMove = -1;
 			if (!dragged) {
 				var x = (evt.pageX - canvas.offsetLeft) * correction.x
         		var y = (evt.pageY - canvas.offsetTop) * correction.y;
@@ -178,7 +191,6 @@ function renderCanvas()
 					ctx.shadowColor = "gray";
 					ctx.strokeRect(pt.x-(obj.sizeX/2), pt.y-(obj.sizeY/2), obj.sizeX, obj.sizeY);
 				}
-				selectedNode = -1;
         		console.log('click');
 			}
 		}, false);
