@@ -144,21 +144,10 @@ buttons #icon:hover {
 #tools-container {
 	position: absolute;
 	top: 74%;
-	display: none;
-	width: 200px;
-	margin-right: auto;
-	margin-left: auto;
-	left: 0;
-	right: 0;
-}
-
-#colors-container {
-	position: absolute;
-	top: 78%;
 	display: block;
-	width: 200px;
-	margin-left: auto;
+	width: 250px;
 	margin-right: auto;
+	margin-left: auto;
 	left: 0;
 	right: 0;
 }

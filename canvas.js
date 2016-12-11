@@ -17,10 +17,8 @@ function getRandomColor() {
 /* Select button was clicked if selectMode is true,
  * selectNode() function finds out, on which node user clicked then.
  */
-var selectMode = false;
-var selectedNode = -1;
+var selectedNode = 0;
 var randomColor = false;
-var textMode = true;
 var nodeToMove = -1;
 
 function selectNode(pt)
@@ -62,21 +60,6 @@ function isNode(pt)
 	return false;
 }
 
-/* Sets selectMode to true after user clicked on select button. */
-function setSelectMode()
-{
-	if (objects.length > 0)
-		selectMode = true;
-}
-
-function unsetSelectMode()
-{
-	selectMode = false;
-	randomColor = false;
-	selectedNode = -1;
-	document.getElementById("tools-container").style.display = 'none';
-}
-
 function useRandomColor()
 {
 	randomColor = true;
@@ -87,14 +70,14 @@ function usePickerColor()
 	randomColor = false;
 }
 
-
-
 function renderCanvas()
 {	
 	var canvas = document.getElementById('canvas');
 
 	window.onload = function() 
 	{
+		var obj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:""};
+		objects.push(obj);
 
 		canvas.width = window.innerWidth;
 	    canvas.height = window.innerHeight;
@@ -193,13 +176,13 @@ function renderCanvas()
 				var x = (evt.pageX - canvas.offsetLeft) * correction.x
         		var y = (evt.pageY - canvas.offsetTop) * correction.y;
         		//some magic is necessary to put the circles to correct place 
-				var pt = ctx.transformedPoint(x, y)
+				var pt = ctx.transformedPoint(x, y);
 				var select = isNode(pt);
 				if (select) {
 					selectNode(pt);
 					redraw();
 				} else {
-	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor(), sizeX:120, sizeY:60, text:""}
+	        		var obj={x:pt.x, y:pt.y, color:getRandomColor(), sizeX:120, sizeY:60, text:""}
 	        		if (!randomColor) {
 	        			var color = $("#colors-picker").spectrum("get");
 	        			obj.color = color.toHexString();
@@ -237,26 +220,20 @@ function renderCanvas()
 		canvas.addEventListener('mousewheel', handleScrolling, false);
 
 		window.onkeypress = function(event) {
-			if (textMode && selectedNode >= 0) {
-				if (event.which == null) {
-					objects[selectedNode].text += String.fromCharCode(event.keyCode); // IE
-				} else if (event.which!=0 && event.charCode!=0) {
-					objects[selectedNode].text += String.fromCharCode(event.which);   // the rest
-				}
+			if (event.which == null) {
+				objects[selectedNode].text += String.fromCharCode(event.keyCode); // IE
+			} else if (event.which!=0 && event.charCode!=0) {
+				objects[selectedNode].text += String.fromCharCode(event.which);   // the rest
 			}
 			redraw();
 		}
 
 		window.onkeydown = function(event) {
-			if (textMode && selectedNode >= 0) {
-				var keyCode = ('which' in event) ? event.which : event.keyCode;
-					if (keyCode == 32) // IE
-						objects[selectedNode].text += ' ';
-					else if (keyCode == 8)
-						objects[selectedNode].text = objects[selectedNode].text.substr(0, objects[selectedNode].text.length - 1);
-					else if (keyCode == 27)
-						unsetSelectMode();
-			}
+			var keyCode = ('which' in event) ? event.which : event.keyCode;
+			if (keyCode == 32)
+				objects[selectedNode].text += ' ';
+			else if (keyCode == 8)
+				objects[selectedNode].text = objects[selectedNode].text.substr(0, objects[selectedNode].text.length - 1);
 			redraw();
 		}
 	};
