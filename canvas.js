@@ -105,6 +105,17 @@ function renderCanvas()
 				if (objects[i].src) {
 					ctx.drawImage(objects[i], 10 * (i*100), 10 * (i*100));
 				} else {
+					if (i == selectedNode) {
+						ctx.shadowBlur = 15;
+		  				ctx.shadowOffsetX = 0;
+						ctx.shadowOffsetY = 0;
+						ctx.shadowColor = "red";
+					} else {
+						ctx.shadowBlur = 6;
+		  				ctx.shadowOffsetX = 4;
+						ctx.shadowOffsetY = 4;
+						ctx.shadowColor = "gray";
+					}
 					if (!objects[i].text) {
 		        		ctx.beginPath();
 						/*ctx.ellipse(objects[i].x, objects[i].y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
@@ -173,6 +184,7 @@ function renderCanvas()
 				var pt = ctx.transformedPoint(x, y)
 				if (selectMode) {
 					selectNode(pt);
+					redraw();
 				} else {
 	        		var obj={x:pt.x, y:pt.y, name:"Hello", color:getRandomColor(), sizeX:120, sizeY:60, text:""}
 	        		if (!randomColor) {
@@ -180,16 +192,7 @@ function renderCanvas()
 	        			obj.color = color.toHexString();
 	        		}
 	        		objects.push(obj);
-	        		ctx.beginPath();
-					/*ctx.ellipse(pt.x, pt.y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
-					ctx.stroke();*/
-					ctx.strokeStyle = obj.color;
-					ctx.lineWidth = 5;
-					ctx.shadowBlur = 6;
-	  				ctx.shadowOffsetX = 4;
-					ctx.shadowOffsetY = 4;
-					ctx.shadowColor = "gray";
-					ctx.strokeRect(pt.x-(obj.sizeX/2), pt.y-(obj.sizeY/2), obj.sizeX, obj.sizeY);
+	        		redraw();
 				}
         		console.log('click');
 			}
@@ -227,6 +230,19 @@ function renderCanvas()
 				} else if (event.which!=0 && event.charCode!=0) {
 					objects[selectedNode].text += String.fromCharCode(event.which);   // the rest
 				}
+			}
+			redraw();
+		}
+
+		window.onkeydown = function(event) {
+			if (textMode && selectedNode >= 0) {
+				var keyCode = ('which' in event) ? event.which : event.keyCode;
+					if (keyCode == 32) // IE
+						objects[selectedNode].text += ' ';
+					else if (keyCode == 8)
+						objects[selectedNode].text = objects[selectedNode].text.substr(0, objects[selectedNode].text.length - 1);
+					else if (keyCode == 27)
+						unsetSelectMode();
 			}
 			redraw();
 		}
