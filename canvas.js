@@ -137,8 +137,8 @@ function renderCanvas()
 
 		canvas.addEventListener('mousedown', function(evt) {
 			document.body.style.mozUserSelect = document.body.style.webkitUserSelect = document.body.style.userSelect = 'none';
-			lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
-			lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+			lastX = (evt.pageX - canvas.offsetLeft) * correction.x;
+			lastY = (evt.pageY - canvas.offsetTop) * correction.y;
 			dragStart = ctx.transformedPoint(lastX, lastY);
 			//if (selectMode) {
 			selectNodeToMove(dragStart);
@@ -147,8 +147,8 @@ function renderCanvas()
 		}, false);
 
 		canvas.addEventListener('mousemove', function(evt) {
-			lastX = evt.offsetX || (evt.pageX - canvas.offsetLeft);
-			lastY = evt.offsetY || (evt.pageY - canvas.offsetTop);
+			lastX = (evt.pageX - canvas.offsetLeft) * correction.x;
+			lastY = (evt.pageY - canvas.offsetTop) * correction.y;
 			dragged = true;
 			if (dragStart) {
 				var pt = ctx.transformedPoint(lastX, lastY);
