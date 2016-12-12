@@ -355,6 +355,17 @@ function renderCanvas()
 			redraw();
 		})
 
+		document.getElementById("new-doc").addEventListener("click", function() {
+			// Clear the canvas
+			var p1 = ctx.transformedPoint(0, 0);
+			var p2 = ctx.transformedPoint(canvas.width, canvas.height);
+			ctx.clearRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+			objects.splice(0, objects.length);
+			var newRoot = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:"Insert text", parent:-1, lWidth:5, visible:1};
+			objects.push(newRoot);
+			redraw();
+		})
+
 	};
 
 	function trackTransforms(ctx) {
