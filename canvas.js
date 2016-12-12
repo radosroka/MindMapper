@@ -14,7 +14,7 @@ function getRandomColor() {
     return color;
 }
 
-var rootObj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:"Insert text", parent:-1};
+var rootObj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:"Insert text", parent:-1, lWidth:5};
 objects.push(rootObj);
 
 /* Select button was clicked if selectMode is true,
@@ -71,6 +71,18 @@ function useRandomColor()
 function usePickerColor()
 {
 	randomColor = false;
+}
+
+function getHighlight()
+{
+	if (objects[selectedNode].parent == -1)
+		return 4;
+	else if (objects[selectedNode].parent == 0)
+		return 3;
+	else if (objects[selectedNode].parent == 1)
+		return 2;
+	else
+		return 1;
 }
 
 function getEndPoints(i)
@@ -159,22 +171,30 @@ function renderCanvas()
 						/*ctx.ellipse(objects[i].x, objects[i].y, 50, 50, 45 * Math.PI/180, 0, 2 * Math.PI);
 						ctx.stroke();*/
 						ctx.strokeStyle = objects[i].color;
-						ctx.lineWidth = 5;
+						ctx.lineWidth = objects[i].lWidth;
 						ctx.strokeRect(objects[i].x-(objects[i].sizeX/2), objects[i].y-(objects[i].sizeY/2), objects[i].sizeX, objects[i].sizeY);
 					} else {
-						ctx.font = "20px Arial";
+						if (objects[i].parent == -1)
+							ctx.font = "20px Arial";
+						else if (objects[i].parent == 0)
+							ctx.font = "19px Arial";
+						else if (objects[i].parent == 1)
+							ctx.font = "17px Arial";
+						else
+							ctx.font = "15px Arial";
+
 						var width = ctx.measureText(objects[i].text).width;
 						
 						ctx.beginPath();
 						ctx.strokeStyle = objects[i].color;
-						ctx.lineWidth = 5;
+						ctx.lineWidth = objects[i].lWidth;
 						objects[i].sizeX = width + 20;
 						ctx.strokeRect(objects[i].x-(objects[i].sizeX/2), objects[i].y-(objects[i].sizeY/2), objects[i].sizeX, objects[i].sizeY);						
 						ctx.fillText(objects[i].text, objects[i].x-(objects[i].sizeX/2)+10, objects[i].y+10);
 					}
 					if (objects[i].parent != -1) {
 						var endPoints = getEndPoints(i);
-						drawArrow(ctx, endPoints.end, endPoints.start);
+						drawArrow(ctx, endPoints.end, endPoints.start, objects[i].lWidth);
 					}
 				}
 				
@@ -228,7 +248,7 @@ function renderCanvas()
 					selectNode(pt);
 					redraw();
 				} else {
-	        		var obj={x:pt.x, y:pt.y, color:getRandomColor(), sizeX:120, sizeY:60, text:"", parent:selectedNode};
+	        		var obj={x:pt.x, y:pt.y, color:getRandomColor(), sizeX:120, sizeY:60, text:"", parent:selectedNode, lWidth:getHighlight()};
 	        		if (!randomColor) {
 	        			var color = $("#colors-picker").spectrum("get");
 	        			obj.color = color.toHexString();

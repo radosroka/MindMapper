@@ -1,8 +1,8 @@
- function drawArrow(ctx, from, to) {
+ function drawArrow(ctx, from, to, lineWidth) {
  	ctx.beginPath();
 
- 	ctx.strokeStyle = "red";
- 	ctx.fillStyle = "red";
+ 	//ctx.strokeStyle = "red";
+ 	//ctx.fillStyle = "red";
 
  	var x_size = from.x - to.x;
  	var y_size = from.y - to.y;
@@ -13,6 +13,7 @@
  	console.log(x_size);
  	console.log(y_size);
 
+ 	ctx.lineWidth = lineWidth * 0.7;
  	ctx.moveTo(from.x, from.y);
  	ctx.lineTo(to.x, to.y);
 
