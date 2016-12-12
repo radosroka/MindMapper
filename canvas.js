@@ -83,7 +83,7 @@ function getHighlight()
 	else if (objects[selectedNode].parent == 1)
 		return 2;
 	else
-		return 1;
+		return 1.5;
 }
 
 function hideBranch(node)
@@ -115,6 +115,11 @@ function deleteBranch(node)
 		}
 	}
 	objects.splice(node, 1);
+}
+
+function unsetRandomColor()
+{
+	randomColor = false;
 }
 
 function getEndPoints(i)
@@ -349,6 +354,8 @@ function renderCanvas()
 			deleteBranch(selectedNode);
 			redraw();
 		})
+
+		
 	};
 
 	function trackTransforms(ctx) {
