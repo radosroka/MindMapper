@@ -69,11 +69,6 @@ function useRandomColor()
 	randomColor = true;
 }
 
-function usePickerColor()
-{
-	randomColor = false;
-}
-
 function getHighlight()
 {
 	if (objects[selectedNode].parent == -1)
@@ -355,7 +350,11 @@ function renderCanvas()
 			redraw();
 		})
 
-		
+		document.getElementById("chcol-btn").addEventListener("click", function() {
+			objects[selectedNode].color = $("#colors-picker").spectrum("get");
+			redraw();
+		})
+
 	};
 
 	function trackTransforms(ctx) {
