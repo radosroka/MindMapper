@@ -14,6 +14,67 @@ function getRandomColor() {
     return color;
 }
 
+function exportCanvas() {
+	//var ctx = document.getElementById('canvas').getContext('2d');
+	url = canvas.toDataURL({format : 'png' });
+	document.getElementById("exportbtn").href = url;
+}
+
+function saveCanvas() {
+	var data = JSON.stringify(objects);
+	properties = {type: 'plain/text'}; // Specify the file's mime-type.
+	try {
+		// Specify the filename using the File constructor, but ...
+		file = new File([data], "file.txt", properties);
+	} catch (e) {
+		// ... fall back to the Blob constructor if that isn't supported.
+		file = new Blob([data], properties);
+	}
+	url = URL.createObjectURL(file);
+	//$("#savebtn").attr("href", url);
+	document.getElementById("savebtn").href = url;
+}
+
+/*function handleFileSelect(evt) {
+	toLoad = evt.target.files[0];
+    //set some content in name of map
+}
+
+document.getElementById('file-to-load').addEventListener('change', handleFileSelect, false);
+*/
+
+function handleLoadFile(evt) {
+
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+	// Great success! All the File APIs are supported.
+	} else {
+		alert('The File APIs are not fully supported in this browser.');
+	}
+
+	var toLoad = evt.target.files[0];
+
+	properties = {type: 'plain/text'}; // Specify the file's mime-type.
+
+	var reader = new FileReader();
+	reader.onload = (function(theFile) {
+		return function(e) {
+			try {
+				objects = JSON.parse(e.target.result);
+                //Verify format
+
+				//TODO: does not work at all canvas does not redraw
+				document.dispatchEvent(new Event('doc-loaded'));
+			} catch (e) {
+				alert("Unexpected file format.")
+			}
+		};
+	})(toLoad);
+
+	reader.readAsText(toLoad);
+}
+
+
+
 var rootObj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:"Insert text", parent:-1, lWidth:5, visible:1};
 objects.push(rootObj);
 
@@ -163,7 +224,7 @@ function renderCanvas()
 
 	window.onload = function() 
 	{
-		
+
 
 		canvas.width = window.innerWidth;
 	    canvas.height = window.innerHeight;
@@ -221,7 +282,7 @@ function renderCanvas()
 						ctx.strokeStyle = objects[i].color;
 						ctx.lineWidth = objects[i].lWidth;
 						objects[i].sizeX = width + 20;
-						ctx.strokeRect(objects[i].x-(objects[i].sizeX/2), objects[i].y-(objects[i].sizeY/2), objects[i].sizeX, objects[i].sizeY);						
+						ctx.strokeRect(objects[i].x-(objects[i].sizeX/2), objects[i].y-(objects[i].sizeY/2), objects[i].sizeX, objects[i].sizeY);
 						ctx.fillText(objects[i].text, objects[i].x-(objects[i].sizeX/2)+10, objects[i].y+10);
 					}
 					if (objects[i].parent != -1) {
@@ -335,6 +396,7 @@ function renderCanvas()
 			redraw();
 		}
 
+
 		document.getElementById("hide-btn").addEventListener("click", function() {
 			hideBranch(selectedNode);
 			redraw();
@@ -365,6 +427,10 @@ function renderCanvas()
 			objects.push(newRoot);
 			redraw();
 		})
+
+		canvas.addEventListener('doc-loaded', redraw, false);
+
+		document.getElementById('file-to-load').addEventListener('change', handleLoadFile, false);
 
 	};
 

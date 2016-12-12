@@ -17,7 +17,12 @@
 
 	<body>
 		<div class="header_div" style=" box-shadow: 7px 7px 20px #bcbcbc;">
+			<form id="file-load-form" class="hide">
+				<input type="file" id="file-to-load" name="filename" accept="text/plain">
+				<input type="submit">
+			</form>
 			<h1 align="left" style="text-shadow: 1px 1px 3px #d2d2e0;"><font style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" color="#CB2027">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M</font>ind <font style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" color="#4DC247">M</font>apper</h1>
+
 		</div>
 
 		<div id="tools-container" class="btn-group" align="center">
@@ -37,7 +42,7 @@
 		    		</div>
 		    		<div id="icon" style="background: url(http://icons.iconarchive.com/icons/custom-icon-design/mono-general-1/128/save-icon.png) no-repeat center;
     background-size: contain; background-color: rgb(0, 132, 255); ">
-		    			<a href="#" class="hide">Save</a>
+		    			<a onclick="saveCanvas()" id="savebtn" target="_blank" class="hide" download="file.txt">Save</a>
 		    		</div>
 		    		<div id="icon" style="background: url(https://cdn3.iconfinder.com/data/icons/folders-files/512/empty_folder-128.png) no-repeat center;
     background-size: contain; background-color: rgb(77, 194, 71); ">
@@ -45,7 +50,7 @@
 		    		</div>
 		    		<div id="icon" style="background: url(http://iconshow.me/download.php?file=path/media/images/Mixed/line-icon/png/128/photo-128.png) no-repeat center;
     background-size: contain; background-color: orange; ">
-		    			<a href="#" class="hide">Export</a>
+		    			<a onclick="exportCanvas()" id="exportbtn" target="_blank" class="hide" download="file.png">Export</a>
 		    		</div>
 			</article>
 		</div>
@@ -56,6 +61,13 @@
 					renderCanvas();
 				</script>
 		</div>
+
+<!--		<div class="" id="save-modal" hidden>
+			<form>
+				<input type="text" name="filename">
+			</form>
+		</div>
+		-->
 
 	</body>
 </html>
