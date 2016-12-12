@@ -14,7 +14,7 @@ function getRandomColor() {
     return color;
 }
 
-var rootObj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:"Insert text", parent:-1, lWidth:5};
+var rootObj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:"Insert text", parent:-1, lWidth:5, visible:1};
 objects.push(rootObj);
 
 /* Select button was clicked if selectMode is true,
@@ -28,7 +28,8 @@ function selectNode(pt)
 {
 	for (var i = 0; i < objects.length; i++) {
 		if (pt.x > objects[i].x-(objects[i].sizeX/2) && pt.x < objects[i].x+(objects[i].sizeX/2) &&
-			pt.y > objects[i].y-(objects[i].sizeY/2) && pt.y < objects[i].y+(objects[i].sizeY/2))
+			pt.y > objects[i].y-(objects[i].sizeY/2) && pt.y < objects[i].y+(objects[i].sizeY/2) &&
+			objects[i].visible)
 		{
 			selectedNode = i;
 
@@ -83,6 +84,26 @@ function getHighlight()
 		return 2;
 	else
 		return 1;
+}
+
+function hideBranch(node)
+{
+	for (var i = 0; i < objects.length; i++) {
+		if (objects[i].parent == node) {
+			objects[i].visible = 0;
+			hideBranch(i);
+		}
+	}
+}
+
+function showBranch(node)
+{
+	for (var i = 0; i < objects.length; i++) {
+		if (objects[i].parent == node) {
+			objects[i].visible = 1;
+			showBranch(i);
+		}
+	}
 }
 
 function getEndPoints(i)
@@ -153,7 +174,7 @@ function renderCanvas()
 			for (var i = 0; i < objects.length; i++) {
 				if (objects[i].src) {
 					ctx.drawImage(objects[i], 10 * (i*100), 10 * (i*100));
-				} else {
+				} else if (objects[i].visible) {
 					if (i == selectedNode) {
 						ctx.shadowBlur = 15;
 		  				ctx.shadowOffsetX = 0;
@@ -248,7 +269,7 @@ function renderCanvas()
 					selectNode(pt);
 					redraw();
 				} else {
-	        		var obj={x:pt.x, y:pt.y, color:getRandomColor(), sizeX:120, sizeY:60, text:"", parent:selectedNode, lWidth:getHighlight()};
+	        		var obj={x:pt.x, y:pt.y, color:getRandomColor(), sizeX:120, sizeY:60, text:"", parent:selectedNode, lWidth:getHighlight(), visible:1};
 	        		if (!randomColor) {
 	        			var color = $("#colors-picker").spectrum("get");
 	        			obj.color = color.toHexString();
@@ -302,6 +323,16 @@ function renderCanvas()
 				objects[selectedNode].text = objects[selectedNode].text.substr(0, objects[selectedNode].text.length - 1);
 			redraw();
 		}
+
+		document.getElementById("hide-btn").addEventListener("click", function() {
+			hideBranch(selectedNode);
+			redraw();
+		})
+
+		document.getElementById("show-btn").addEventListener("click", function() {
+			showBranch(selectedNode);
+			redraw();
+		})
 	};
 
 	function trackTransforms(ctx) {
