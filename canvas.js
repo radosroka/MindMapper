@@ -14,6 +14,9 @@ function getRandomColor() {
     return color;
 }
 
+var rootObj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:"Insert text", parent:-1};
+objects.push(rootObj);
+
 /* Select button was clicked if selectMode is true,
  * selectNode() function finds out, on which node user clicked then.
  */
@@ -70,12 +73,45 @@ function usePickerColor()
 	randomColor = false;
 }
 
-/*function getEndPoints(i)
+function getEndPoints(i)
 {
 	var p = objects[i].parent;
+	var pDiagonal = Math.sqrt(objects[p].sizeX*objects[p].sizeX + objects[p].sizeY*objects[p].sizeY);
+	var iDiagonal = Math.sqrt(objects[i].sizeX*objects[i].sizeX + objects[i].sizeY*objects[i].sizeY);
 
-	var startPointX = objects[i].x
-}*/
+	var iX = objects[i].x;
+	var iY = objects[i].y;
+	var pX = objects[p].x;
+	var pY = objects[p].y;
+
+	k = (objects[i].y - objects[p].y)/(objects[i].x - objects[p].x);
+	q = objects[p].y - (k*objects[p].x);
+
+	var d = iDiagonal/2;
+	var dd = pDiagonal/2;
+
+	if (iX > pX)
+		var a1 = (-Math.sqrt(-Math.pow(iX,2)*k*k-2*iX*k*q+2*iX*k*iY+d*d*k*k+d*d-q*q+2*q*iY-Math.pow(iY,2))+iX-k*q+k*objects[i].y)/(k*k+1);
+	else
+		var a1 = (Math.sqrt(-Math.pow(iX,2)*k*k-2*iX*k*q+2*iX*k*iY+d*d*k*k+d*d-q*q+2*q*iY-Math.pow(iY,2))+iX-k*q+k*objects[i].y)/(k*k+1);
+
+	var a2 = k * a1 + q;
+
+	if (iX < pX)
+		var b1 = (-Math.sqrt(-Math.pow(pX,2)*k*k-2*pX*k*q+2*pX*k*pY+dd*dd*k*k+dd*dd-q*q+2*q*pY-Math.pow(pY,2))+pX-k*q+k*pY)/(k*k+1);
+	else
+		var b1 = (Math.sqrt(-Math.pow(pX,2)*k*k-2*pX*k*q+2*pX*k*pY+dd*dd*k*k+dd*dd-q*q+2*q*pY-Math.pow(pY,2))+pX-k*q+k*pY)/(k*k+1);
+
+	var b2 = k * b1 + q;
+
+	var startP = {x:a1, y:a2};
+	var endP = {x:b1, y:b2};
+
+	var result = {start:startP, end:endP};
+
+	return result;
+
+}
 
 function renderCanvas()
 {	
@@ -83,8 +119,7 @@ function renderCanvas()
 
 	window.onload = function() 
 	{
-		var obj = {x:900, y:450, color:getRandomColor(), sizeX:120, sizeY:60, text:"Insert text", parent:-1};
-		objects.push(obj);
+		
 
 		canvas.width = window.innerWidth;
 	    canvas.height = window.innerHeight;
@@ -134,15 +169,15 @@ function renderCanvas()
 						ctx.strokeStyle = objects[i].color;
 						ctx.lineWidth = 5;
 						objects[i].sizeX = width + 20;
-						
-						ctx.strokeRect(objects[i].x-(objects[i].sizeX/2), objects[i].y-(objects[i].sizeY/2), objects[i].sizeX, objects[i].sizeY);
-						/*if (objects[i].parent != -1) {
-							var endPoints = getEndPoints(i);
-							ctx.moveTo(endPoints.start.x, endPoints.start.y);
-							ctx.lineTo(endPoints.end.x, endPoints.end.y);
-							ctx.stroke();
-						}*/
+						ctx.strokeRect(objects[i].x-(objects[i].sizeX/2), objects[i].y-(objects[i].sizeY/2), objects[i].sizeX, objects[i].sizeY);						
 						ctx.fillText(objects[i].text, objects[i].x-(objects[i].sizeX/2)+10, objects[i].y+10);
+					}
+					if (objects[i].parent != -1) {
+						var endPoints = getEndPoints(i);
+						ctx.beginPath();
+						ctx.moveTo(endPoints.start.x, endPoints.start.y);
+						ctx.lineTo(endPoints.end.x, endPoints.end.y);
+						ctx.stroke();
 					}
 				}
 				
