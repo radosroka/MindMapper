@@ -1,6 +1,4 @@
- function drawArrow(from, to) {
- 	var canvas = document.getElementById('canvas');
- 	var ctx = canvas.getContext("2d"); 
+ function drawArrow(ctx, from, to) {
  	ctx.beginPath();
 
  	ctx.strokeStyle = "red";

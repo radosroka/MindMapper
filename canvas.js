@@ -174,10 +174,7 @@ function renderCanvas()
 					}
 					if (objects[i].parent != -1) {
 						var endPoints = getEndPoints(i);
-						ctx.beginPath();
-						ctx.moveTo(endPoints.start.x, endPoints.start.y);
-						ctx.lineTo(endPoints.end.x, endPoints.end.y);
-						ctx.stroke();
+						drawArrow(ctx, endPoints.end, endPoints.start);
 					}
 				}
 				
