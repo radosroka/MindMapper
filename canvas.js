@@ -106,6 +106,17 @@ function showBranch(node)
 	}
 }
 
+function deleteBranch(node)
+{
+	for (var i = 0; i < objects.length; i++) {
+		if (objects[i].parent == node) {
+			deleteBranch(i);
+			objects.splice(i, 1);
+		}
+	}
+	objects.splice(node, 1);
+}
+
 function getEndPoints(i)
 {
 	var p = objects[i].parent;
@@ -331,6 +342,11 @@ function renderCanvas()
 
 		document.getElementById("show-btn").addEventListener("click", function() {
 			showBranch(selectedNode);
+			redraw();
+		})
+
+		document.getElementById("del-btn").addEventListener("click", function() {
+			deleteBranch(selectedNode);
 			redraw();
 		})
 	};
