@@ -17,10 +17,7 @@
 
 	<body>
 		<div class="header_div" style=" box-shadow: 7px 7px 20px #bcbcbc;">
-			<form id="file-load-form" class="hide">
-				<input type="file" id="file-to-load" name="filename" accept="text/plain">
-				<input type="submit">
-			</form>
+
 			<h1 align="left" style="text-shadow: 1px 1px 3px #d2d2e0;"><font style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" color="#CB2027">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M</font>ind <font style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" color="#4DC247">M</font>apper</h1>
 
 		</div>
@@ -46,13 +43,24 @@
 		    		</div>
 		    		<div id="icon" style="background: url(https://cdn3.iconfinder.com/data/icons/folders-files/512/empty_folder-128.png) no-repeat center;
     background-size: contain; background-color: rgb(77, 194, 71); ">
-		    			<a href="#" class="hide">Load</a>
+		    			<a onclick="document.getElementById('load-modal').style.display='block'" class="hide">Load</a>
 		    		</div>
 		    		<div id="icon" style="background: url(http://iconshow.me/download.php?file=path/media/images/Mixed/line-icon/png/128/photo-128.png) no-repeat center;
     background-size: contain; background-color: orange; ">
 		    			<a onclick="exportCanvas()" id="exportbtn" target="_blank" class="hide" download="file.png">Export</a>
 		    		</div>
 			</article>
+		</div>
+
+		<div class="modal" id="load-modal">
+			<div class="modal-content">
+				<h2 align="middle">Zadajte zdroj:</h2>
+				<span class="close" onclick="document.getElementById('load-modal').style.display='none'">&times;</span>
+                <form name="file-load-form" action="javascript:handleLoadFile()">
+                    <input class="btn" type="file" id="file-to-load" name="filename" accept="text/plain">
+                    <input class="btn" onclick="document.getElementById('load-modal').style.display='none'" type="submit">
+                </form>
+			</div>
 		</div>
 
 		<div class="content_div">
@@ -62,12 +70,6 @@
 				</script>
 		</div>
 
-<!--		<div class="" id="save-modal" hidden>
-			<form>
-				<input type="text" name="filename">
-			</form>
-		</div>
-		-->
 
 	</body>
 </html>

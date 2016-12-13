@@ -16,6 +16,7 @@ function getRandomColor() {
 
 function exportCanvas() {
 	//var ctx = document.getElementById('canvas').getContext('2d');
+
 	url = canvas.toDataURL({format : 'png' });
 	document.getElementById("exportbtn").href = url;
 }
@@ -43,7 +44,7 @@ function saveCanvas() {
 document.getElementById('file-to-load').addEventListener('change', handleFileSelect, false);
 */
 
-function handleLoadFile(evt) {
+function handleLoadFile() {
 
 	if (window.File && window.FileReader && window.FileList && window.Blob) {
 	// Great success! All the File APIs are supported.
@@ -51,7 +52,8 @@ function handleLoadFile(evt) {
 		alert('The File APIs are not fully supported in this browser.');
 	}
 
-	var toLoad = evt.target.files[0];
+	var toLoad = document.getElementById('file-to-load').files[0];
+	//toLoad = evt.target.files[0];
 
 	properties = {type: 'plain/text'}; // Specify the file's mime-type.
 
@@ -428,9 +430,9 @@ function renderCanvas()
 			redraw();
 		})
 
-		canvas.addEventListener('doc-loaded', redraw, false);
+		document.addEventListener('doc-loaded', redraw, false);
 
-		document.getElementById('file-to-load').addEventListener('change', handleLoadFile, false);
+		//document.getElementById('file-to-load').addEventListener('change', handleLoadFile, false);
 
 	};
 
