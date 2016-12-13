@@ -54,12 +54,11 @@
 
 		<div class="modal" id="load-modal">
 			<div class="modal-content">
-				<h2 align="middle">Zadajte zdroj:</h2>
+				<h2 align="middle">Select file to load...</h2>
 				<span class="close" onclick="document.getElementById('load-modal').style.display='none'">&times;</span>
-                <form name="file-load-form" action="javascript:handleLoadFile()">
-                    <input class="btn" type="file" id="file-to-load" name="filename" accept="text/plain">
-                    <input class="btn" onclick="document.getElementById('load-modal').style.display='none'" type="submit">
-                </form>
+					<label for="file-to-load" class="btn">Select mind map</label>
+                    <input class="btn" style="display:none;" type="file" id="file-to-load" name="filename" accept="text/plain">
+                    <button class="btn" id="load-submit" onclick="document.getElementById('load-modal').style.display='none'; handleLoadFile()">Load</button>
 			</div>
 		</div>
 
